@@ -1,0 +1,24 @@
+{
+  "name": "nookbot",
+  "module": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.ts",
+    "dev": "bun --watch src/index.ts",
+    "dev:hmr": "bun --hot src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
+    "eslint": "^8.56.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@ptkdev/logger": "^1.8.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.4"
+  }
+}

@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node src/index.ts",
     "dev": "bun --watch src/index.ts",
-    "dev:hmr": "bun --hot src/index.ts"
+    "dev:hmr": "bun --hot src/index.ts",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
   },
   "devDependencies": {
     "@types/bun": "latest",

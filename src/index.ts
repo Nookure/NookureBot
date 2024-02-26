@@ -3,6 +3,7 @@ import 'dotenv/config';
 import logger from './logger';
 import onMessage from './event/onMessage';
 import commandHandler from './command/commandHandler';
+import './database/connection';
 
 const TOKEN = process.env.TOKEN as string;
 

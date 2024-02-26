@@ -29,6 +29,11 @@ const data: MessageAnalysis[] = [
   \`\`\`
   `,
   },
+  {
+    search: ['_hash', 'ERR_OSSL', 'Object.createHash'],
+    type: MessageAnalysisType.Contains,
+    reply: 'Run the command `NODE_OPTIONS=--openssl-legacy-provider yarn build:production` and then reload the page.',
+  },
 ];
 
 export default data;

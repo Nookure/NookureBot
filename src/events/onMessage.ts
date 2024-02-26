@@ -4,13 +4,6 @@ import data from '@/data/data';
 import { MessageAnalysis, MessageAnalysisType } from '@/data/types';
 import logger from '@/logger';
 
-class MessageHandler extends Handler {
-  constructor(client: Client) {
-    super(client);
-    client.on(Events.MessageCreate, handleMessage);
-  }
-}
-
 const handleMessage = (message: Message<boolean>) => {
   if (message.author.bot) return;
   data.forEach((data) => {
@@ -77,4 +70,8 @@ const sendReply = (message: Message<boolean>, data: MessageAnalysis) => {
   }
 };
 
-export default MessageHandler;
+export default {
+  register(client: Client) {
+    client.on(Events.MessageCreate, handleMessage);
+  },
+} as Handler;

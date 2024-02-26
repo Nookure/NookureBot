@@ -1,7 +1,8 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import 'dotenv/config';
 import logger from './logger';
-import onMessage from './events/onMessage';
+import onMessage from './event/onMessage';
+import commandHandler from './command/commandHandler';
 
 const TOKEN = process.env.TOKEN as string;
 
@@ -12,7 +13,7 @@ client.once(Events.ClientReady, readyClient => {
 });
 
 const registerEvents = (client: Client) => {
-  [onMessage].forEach((event) => event.register(client));
+  [onMessage, commandHandler].forEach((event) => event.register(client));
 };
 
 registerEvents(client);

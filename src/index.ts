@@ -1,7 +1,7 @@
 import { Client, Events, GatewayIntentBits } from 'discord.js';
 import 'dotenv/config';
 import logger from './logger';
-import MessageHandler from './events/onMessage';
+import onMessage from './events/onMessage';
 
 const TOKEN = process.env.TOKEN as string;
 
@@ -11,6 +11,10 @@ client.once(Events.ClientReady, readyClient => {
   logger.info(`Logged in as ${readyClient.user?.tag}`);
 });
 
-new MessageHandler(client);
+const registerEvents = (client: Client) => {
+  [onMessage].forEach((event) => event.register(client));
+};
+
+registerEvents(client);
 
 client.login(TOKEN);

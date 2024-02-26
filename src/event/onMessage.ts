@@ -101,7 +101,7 @@ const handleFile = async (message: Message<boolean>, attachment: Attachment) => 
     .catch((error) => {
       logger.error(error);
     });
-}
+};
 
 const sendReply = (message: Message<boolean>, data: MessageAnalysis) => {
   logger.debug(`Replying to ${message.author.tag} with ${data.reply}`);

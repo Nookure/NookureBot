@@ -5,6 +5,7 @@
 	"dockerFile": "Dockerfile",
 	"postCreateCommand": "bun install",
 	"features": {
-		"ghcr.io/shyim/devcontainers-features/bun:0": {}
+		"ghcr.io/shyim/devcontainers-features/bun:0": {},
+		"ghcr.io/devcontainers/features/node:1": {}
 	}
 }

@@ -1,33 +1,47 @@
-import { Client, Events, Message } from 'discord.js';
+import { Attachment, Client, Events, Message } from 'discord.js';
 import Handler from './handler';
 import data from '@/data/data';
 import { MessageAnalysis, MessageAnalysisType } from '@/data/types';
 import logger from '@/logger';
+import readText from '@/util/textFromImage';
 
 const handleMessage = (message: Message<boolean>) => {
   if (message.author.bot) return;
+  message.attachments.forEach((attachment) => {
+    if (attachment.contentType?.startsWith('image')) {
+      logger.debug(`Image detected from ${message.author.tag}`);
+      handleImage(message, attachment);
+    }
+  });
+
+  if (message.content) {
+    handleText(message, message.content);
+  }
+};
+
+const handleText = async (message: Message, input: string) => {
   data.forEach((data) => {
     if (data.type === MessageAnalysisType.Contains) {
-      handleContains(message, data);
+      handleContains(message, input, data);
     } else if (data.type === MessageAnalysisType.Exact) {
-      handleExact(message, data);
+      handleExact(message, input, data);
     }
   });
 };
 
-const handleContains = (message: Message<boolean>, data: MessageAnalysis) => {
+const handleContains = (message: Message<boolean>, input: string, data: MessageAnalysis) => {
   if (data.search instanceof Array) {
-    data.search.forEach((search) => {
+    data.search.some((search) => {
       let found = true;
       search.split(' ').forEach((word) => {
-        if (!message.content.toLowerCase().includes(word.toLowerCase())) {
+        if (!input.toLowerCase().includes(word.toLowerCase())) {
           found = false;
         }
       });
 
       if (found) {
         sendReply(message, data);
-        return;
+        return true;
       }
     });
   }
@@ -35,7 +49,7 @@ const handleContains = (message: Message<boolean>, data: MessageAnalysis) => {
   if (typeof data.search === 'string') {
     let found = true;
     data.search.split(' ').forEach((word) => {
-      if (!message.content.toLowerCase().includes(word.toLowerCase())) {
+      if (!input.toLowerCase().includes(word.toLowerCase())) {
         found = false;
       }
     });
@@ -44,21 +58,33 @@ const handleContains = (message: Message<boolean>, data: MessageAnalysis) => {
   }
 };
 
-
-const handleExact = (message: Message<boolean>, data: MessageAnalysis) => {
+const handleExact = (message: Message<boolean>, input: string, data: MessageAnalysis) => {
   if (data.search instanceof Array) {
-    data.search.forEach((search) => {
-      if (message.content.toLowerCase() === search.toLowerCase()) {
+    data.search.some((search) => {
+      if (input.toLowerCase() === search.toLowerCase()) {
         sendReply(message, data);
+        return true;
       }
     });
   }
 
   if (typeof data.search === 'string') {
-    if (message.content.toLowerCase() === data.search.toLowerCase()) {
+    if (input.toLowerCase() === data.search.toLowerCase()) {
       sendReply(message, data);
+      return true;
     }
   }
+};
+
+const handleImage = async (message: Message<boolean>, attachment: Attachment) => {
+  message.react('👀');
+  readText(attachment.proxyURL)
+    .then((text) => {
+      handleText(message, text);
+    })
+    .catch((error) => {
+      logger.error(error);
+    });
 };
 
 const sendReply = (message: Message<boolean>, data: MessageAnalysis) => {

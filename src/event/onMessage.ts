@@ -4,6 +4,7 @@ import data from '@/data/data';
 import { MessageAnalysis, MessageAnalysisType } from '@/data/types';
 import logger from '@/logger';
 import readText from '@/util/textFromImage';
+import readFile from '@/util/textFromFile';
 
 const handleMessage = (message: Message<boolean>) => {
   if (message.author.bot) return;
@@ -11,6 +12,10 @@ const handleMessage = (message: Message<boolean>) => {
     if (attachment.contentType?.startsWith('image')) {
       logger.debug(`Image detected from ${message.author.tag}`);
       handleImage(message, attachment);
+    }
+    if (attachment.contentType?.startsWith('text/plain')) {
+      logger.debug(`Plain text file detected from ${message.author.tag}`);
+      handleFile(message, attachment);
     }
   });
 
@@ -79,6 +84,17 @@ const handleExact = (message: Message<boolean>, input: string, data: MessageAnal
 const handleImage = async (message: Message<boolean>, attachment: Attachment) => {
   message.react('👀');
   readText(attachment.proxyURL)
+    .then((text) => {
+      handleText(message, text);
+    })
+    .catch((error) => {
+      logger.error(error);
+    });
+};
+
+const handleFile = async (message: Message<boolean>, attachment: Attachment) => {
+  message.react('👀');
+  readFile(attachment)
     .then((text) => {
       handleText(message, text);
     })

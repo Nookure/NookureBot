@@ -131,3 +131,6 @@ dist
 
 # Trained data
 *.traineddata
+
+# Databases
+*.db

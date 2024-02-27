@@ -6,12 +6,12 @@ import {
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from 'discord.js';
-import command from '../command';
 import lang from '@/lang';
+import { getComponent } from '@/components/get';
 
 export const CREATE_TICKET = 'createTicket';
 
-const command = new SlashCommandBuilder()
+const commandData = new SlashCommandBuilder()
   .setName('ticketform')
   .setDescription('Create a ticket form')
   .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
@@ -22,24 +22,19 @@ const execute = async (interaction: CommandInteraction) => {
     .setDescription(lang.tickets.description)
     .setColor(lang.tickets.color)
     .setThumbnail(lang.tickets.thumbnail)
-    .setFooter({
-      text: lang.tickets.footer,
-    });
+    .setFooter({ text: lang.tickets.footer });
 
-  const createTickketButton = new ButtonBuilder()
-    .setCustomId(CREATE_TICKET)
-    .setLabel(lang.tickets.createTicketButton.label)
-    .setStyle(lang.tickets.createTicketButton.style);
+  const component = await getComponent('buttons', 'createTicket');
+  if (!(component instanceof ButtonBuilder)) {
+    throw new Error('Expected a ButtonBuilder');
+  }
 
-  const row = new ActionRowBuilder().addComponents(createTickketButton);
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(component);
 
-  // @ts-expect-error - This is a valid method
-  interaction.channel?.send({ embeds: [embed], components: [row] });
-
-  interaction.reply({ content: 'Ticket form created', ephemeral: true });
+  await interaction.reply({ embeds: [embed], components: [row] });
 };
 
 export default {
-  data: command,
+  data: commandData,
   execute,
-} as command;
+};

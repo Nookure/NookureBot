@@ -8,8 +8,7 @@ import {
 } from 'discord.js';
 import command from '../command';
 import lang from '@/lang';
-
-export const CREATE_TICKET = 'createTicket';
+import createTicketButton from '@/component/button/ticket/createTicketButton';
 
 const command = new SlashCommandBuilder()
   .setName('ticketform')
@@ -26,14 +25,8 @@ const execute = async (interaction: CommandInteraction) => {
       text: lang.tickets.footer,
     });
 
-  const createTickketButton = new ButtonBuilder()
-    .setCustomId(CREATE_TICKET)
-    .setLabel(lang.tickets.createTicketButton.label)
-    .setStyle(lang.tickets.createTicketButton.style);
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(createTicketButton.button);
 
-  const row = new ActionRowBuilder().addComponents(createTickketButton);
-
-  // @ts-expect-error - This is a valid method
   interaction.channel?.send({ embeds: [embed], components: [row] });
 
   interaction.reply({ content: 'Ticket form created', ephemeral: true });

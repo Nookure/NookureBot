@@ -2,6 +2,7 @@ import Handler from '@/event/handler';
 import { CacheType, Collection, Events, Interaction, REST, RESTPostAPIChatInputApplicationCommandsJSONBody, Routes } from 'discord.js';
 import command from '@/command/command';
 import about from './about';
+import ticketForm from './ticket/ticketForm';
 import logger from '@/logger';
 
 const commands = new Collection<string, command>();
@@ -11,6 +12,7 @@ const registerCommand = (command: command) => {
 };
 
 registerCommand(about);
+registerCommand(ticketForm);
 
 const handleCommand = async (interaction: Interaction<CacheType>) => {
   if (!interaction.isCommand()) return;

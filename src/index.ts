@@ -5,6 +5,8 @@ import onMessage from './event/onMessage';
 import commandHandler from './command/commandHandler';
 import './database/connection';
 
+logger.sponsor('Powered by Nookure');
+
 const TOKEN = process.env.TOKEN as string;
 
 export const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });

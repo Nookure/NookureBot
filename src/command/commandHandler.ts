@@ -3,6 +3,7 @@ import { CacheType, Collection, Events, Interaction, REST, RESTPostAPIChatInputA
 import command from '@/command/command';
 import about from './about';
 import logger from '@/logger';
+import ticketForm from './ticket/ticketForm';
 
 const commands = new Collection<string, command>();
 
@@ -11,6 +12,7 @@ const registerCommand = (command: command) => {
 };
 
 registerCommand(about);
+registerCommand(ticketForm);
 
 const handleCommand = async (interaction: Interaction<CacheType>) => {
   if (!interaction.isCommand()) return;

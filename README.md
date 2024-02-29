@@ -22,4 +22,5 @@ This bot is made for the automatization of the Nookure Studios discord server su
 - `bun dev` - Start the bot in development mode
 - `bun dev:hmr` - Start the bot in development mode with hot module replacement
 - `bun start` - Start the bot in production mode
-
+- `bun lint` - Checks errors in the code style
+- `bun lint:fix` - Fix linting errors

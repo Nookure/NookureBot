@@ -6,12 +6,11 @@ import {
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from 'discord.js';
+import command from '../command';
 import lang from '@/lang';
-import { getComponent } from '@/components/get';
+import createTicketButton from '@/component/button/ticket/createTicketButton';
 
-export const CREATE_TICKET = 'createTicket';
-
-const commandData = new SlashCommandBuilder()
+const command = new SlashCommandBuilder()
   .setName('ticketform')
   .setDescription('Create a ticket form')
   .setDefaultMemberPermissions(PermissionFlagsBits.Administrator);
@@ -22,19 +21,18 @@ const execute = async (interaction: CommandInteraction) => {
     .setDescription(lang.tickets.description)
     .setColor(lang.tickets.color)
     .setThumbnail(lang.tickets.thumbnail)
-    .setFooter({ text: lang.tickets.footer });
+    .setFooter({
+      text: lang.tickets.footer,
+    });
 
-  const component = await getComponent('buttons', 'createTicket');
-  if (!(component instanceof ButtonBuilder)) {
-    throw new Error('Expected a ButtonBuilder');
-  }
+  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(createTicketButton.button);
 
-  const row = new ActionRowBuilder<ButtonBuilder>().addComponents(component);
+  interaction.channel?.send({ embeds: [embed], components: [row] });
 
-  await interaction.reply({ embeds: [embed], components: [row] });
+  interaction.reply({ content: 'Ticket form created', ephemeral: true });
 };
 
 export default {
-  data: commandData,
+  data: command,
   execute,
-};
+} as command;

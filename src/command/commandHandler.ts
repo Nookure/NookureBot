@@ -2,8 +2,8 @@ import Handler from '@/event/handler';
 import { CacheType, Collection, Events, Interaction, REST, RESTPostAPIChatInputApplicationCommandsJSONBody, Routes } from 'discord.js';
 import command from '@/command/command';
 import about from './about';
-import ticketForm from './ticket/ticketForm';
 import logger from '@/logger';
+import ticketForm from './ticket/ticketForm';
 
 const commands = new Collection<string, command>();
 

@@ -5,6 +5,7 @@ import onMessage from './event/onMessage';
 import commandHandler from './command/commandHandler';
 import './database/connection';
 import buttonHandler from './component/button/buttonHandler';
+import { modalHandlerRegistry } from './component/modal/modalHandler';
 
 logger.sponsor('Powered by Nookure');
 
@@ -18,6 +19,7 @@ client.once(Events.ClientReady, readyClient => {
 
 const registerEvents = (client: Client) => {
   [onMessage, commandHandler, buttonHandler].forEach((event) => event.register(client));
+  modalHandlerRegistry.register(client);
 };
 
 registerEvents(client);

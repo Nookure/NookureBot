@@ -6,3 +6,11 @@ export const tickets = sqliteTable('tickets', {
   channelID: integer('channelID'),
   category: text('category'),
 });
+
+export const suggestions = sqliteTable('tickets', {
+  id: integer('id').primaryKey(),
+  userID: integer('userID'),
+  messageID: integer('messageID'),
+  upVotes: integer('upVotes'),
+  downVotes: integer('downVotes'),
+});

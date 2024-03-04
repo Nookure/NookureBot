@@ -4,6 +4,8 @@ import command from '@/command/command';
 import about from './about';
 import logger from '@/logger';
 import ticketForm from './ticket/ticketForm';
+import suggest from './suggestion/suggest';
+import suggestionForm from './suggestion/suggestionForm';
 
 const commands = new Collection<string, command>();
 
@@ -13,6 +15,8 @@ const registerCommand = (command: command) => {
 
 registerCommand(about);
 registerCommand(ticketForm);
+registerCommand(suggest);
+registerCommand(suggestionForm);
 
 const handleCommand = async (interaction: Interaction<CacheType>) => {
   if (!interaction.isCommand()) return;

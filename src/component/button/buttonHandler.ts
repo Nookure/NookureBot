@@ -3,6 +3,7 @@ import { CacheType, Collection, Events, Interaction } from 'discord.js';
 import button from './button';
 import logger from '@/logger';
 import createTicketButton, { CREATE_TICKET } from './ticket/createTicketButton';
+import createSuggestionButton, { CREATE_SUGGEST } from './suggestion/createSuggestionButton';
 
 const buttons = new Collection<string, button>();
 
@@ -11,6 +12,7 @@ export const registerButton = (button: button, customId: string) => {
 };
 
 registerButton(createTicketButton, CREATE_TICKET);
+registerButton(createSuggestionButton, CREATE_SUGGEST);
 
 const handleButton = async (interaction: Interaction<CacheType>) => {
   if (!interaction.isButton()) return;
